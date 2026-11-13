@@ -76,7 +76,7 @@ def unchanged_tests(workspace: Path, original_tests: dict):
     return current
 
 
-def atomic_write(path: Path, data: str | bytes):
+def atomic_write(path: Path, data: str | bytes, *, mode: int | None = None):
     """Replace and fsync before the next task can start."""
     payload = data.encode() if isinstance(data, str) else data
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -85,6 +85,8 @@ def atomic_write(path: Path, data: str | bytes):
         with os.fdopen(fd, "wb") as f:
             f.write(payload)
             f.flush()
+            if mode is not None:
+                os.fchmod(f.fileno(), mode)
             os.fsync(f.fileno())
         os.replace(name, path)
         parent = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
@@ -107,9 +109,14 @@ def publish(task: Task, workspace: Path, answer: str, original_tests: dict):
             raise ValueError("unsafe_destination")
     for path, rel in files:
         if str(rel) not in current_tests:
-            atomic_write(task.workspace / rel, path.read_bytes())
+            destination = task.workspace / rel
+            try:
+                executable = destination.stat().st_mode & 0o111
+            except FileNotFoundError:
+                executable = 0
+            atomic_write(destination, path.read_bytes(), mode=0o644 | executable)
     if task.task_type != "coding":
-        atomic_write(task.directory / "answer.txt", answer.strip() + "\n")
+        atomic_write(task.directory / "answer.txt", answer.strip() + "\n", mode=0o644)
 
 
 class Journal:

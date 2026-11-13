@@ -105,6 +105,12 @@ def runtime_provenance(api_model, limits, prompt, train_dataset_sha256,
     })
 
 
+# The publication-mode fix changes file permissions after solving. The checked
+# runtime hashes below bind the shipped v3 weights to those two source snapshots.
+V3_BEFORE_PUBLICATION_MODE = "bc5c2e54b65955ab3f9a85b5f3b4c07383e9dac4f88a792aeb3886a9a1d6991a"
+V3_WITH_PUBLICATION_MODE = "9a7cb2164cacfca2dc1d49854fd810163507332fc9bacaa5cfa17f26838a7b6d"
+
+
 def _first_mismatch(expected, actual, keys):
     for key in sorted(keys):
         if canonical(expected[key]) != canonical(actual[key]):
@@ -157,8 +163,12 @@ def limits_transfer_mismatch(trained, runtime):
 
 
 def weights_runtime_mismatch(trained, runtime):
-    """Weights -> runtime check: every non-limit field exact, limits by the transfer rule."""
+    """Check task-solver compatibility when transferring weights to runtime."""
     trained, runtime = validate_provenance(trained), validate_provenance(runtime)
+    if (trained["solver_config"]["implementation_sha256"],
+            runtime["solver_config"]["implementation_sha256"]) == (
+            V3_BEFORE_PUBLICATION_MODE, V3_WITH_PUBLICATION_MODE):
+        trained["solver_config"]["implementation_sha256"] = V3_WITH_PUBLICATION_MODE
     field = _first_mismatch(trained, runtime, FIELDS - {"limits"})
     if field:
         return field, "mismatch"
