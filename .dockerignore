@@ -1,0 +1,15 @@
+**
+!Dockerfile
+!requirements.lock
+!run_agent.py
+!harness/
+!harness/*.py
+!scripts/
+!scripts/estimator.py
+!competition/
+!competition/*.json
+!competition/tokenizers/
+!competition/tokenizers/*/
+!competition/tokenizers/*/LICENSE
+!competition/tokenizers/*/chat_template.jinja
+!competition/tokenizers/*/tokenizer.json

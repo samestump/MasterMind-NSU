@@ -1,0 +1,89 @@
+{
+  "version": 2,
+  "kind": "public_feature_cost_pass_estimator",
+  "provenance": {
+    "version": 1,
+    "api_model": "qwen3.8-27b",
+    "sdk_version": "0.1.20.post1",
+    "prompt_sha256": "e863e2e64a6a13cc53c2740120ac1056c4b0447fb5dfcd6eb57e1c79eacfca89",
+    "solver_config": {
+      "policy": "sequential_baseline_v1",
+      "temperature": 0.0,
+      "reasoning_accounting": "included",
+      "request_timeout_seconds": 120.0,
+      "max_retries": 0,
+      "call_delay_seconds": 1.5,
+      "implementation_sha256": "bc5c2e54b65955ab3f9a85b5f3b4c07383e9dac4f88a792aeb3886a9a1d6991a"
+    },
+    "limits": {
+      "steps": 12,
+      "task_seconds": 180.0,
+      "run_seconds": 14400.0,
+      "tool_seconds": 30.0,
+      "output_tokens": 2048,
+      "token_budget": null
+    },
+    "train_dataset_sha256": "8c0fab26db54715701c1e2590a841bb76f2fb829fdbaf691a3d4dd29e2a34ec9",
+    "feature_schema": {
+      "version": 1,
+      "public_fields": [
+        "task_type",
+        "instruction_characters",
+        "workspace_files",
+        "workspace_bytes"
+      ],
+      "vector": [
+        "intercept",
+        "log1p_instruction_characters_or_zero",
+        "log1p_workspace_bytes",
+        "workspace_files",
+        "is_search",
+        "is_data_analysis",
+        "is_coding"
+      ]
+    },
+    "cost_unit": "output_tokens + input_tokens / 10"
+  },
+  "train_rows": 597,
+  "alpha": 1.0,
+  "use_length": false,
+  "feature_means": [
+    0.0,
+    0.0,
+    5.258829056061058,
+    0.9949748743718593,
+    0.25125628140703515,
+    0.25125628140703515,
+    0.24623115577889448
+  ],
+  "feature_stds": [
+    1.0,
+    1.0,
+    3.2293046056235024,
+    0.7053099923426231,
+    0.43373559049326804,
+    0.43373559049326804,
+    0.43081477888146347
+  ],
+  "cost_weights": [
+    6.525429694912194,
+    0.0,
+    1.1200436861644758,
+    -0.6500164203245401,
+    -0.9893936196295587,
+    -0.5143491694240985,
+    0.22488050504857235
+  ],
+  "pass_weights": [
+    1.3105656594515593,
+    0.0,
+    -0.19275435567755844,
+    0.172036751816369,
+    0.12448387092842333,
+    0.11473276607983127,
+    0.020406067363001896
+  ],
+  "log_residual_q50": -0.03983974008200608,
+  "log_residual_q80": 0.20674372235771177,
+  "training_file_sha256": "e9daa2fe4e4f71f8ffab4a3428bc52a09570cae30626aef707748c6bccfdc4b8"
+}

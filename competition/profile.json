@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "model": "qwen3.8-27b",
+  "estimator": "estimator-no-length.json",
+  "estimator_sha256": "ef07ec2e0d79aa44ce1513459872189e30a11a28c8ec2f357a9f3484d024ee66",
+  "train_dataset_sha256": "8c0fab26db54715701c1e2590a841bb76f2fb829fdbaf691a3d4dd29e2a34ec9",
+  "call_delay": 1.5,
+  "local_token_count": true,
+  "order": "estimator",
+  "source": "Source-output v3, 597 live training trajectories"
+}
